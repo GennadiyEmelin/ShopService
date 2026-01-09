@@ -15,7 +15,7 @@ namespace ShopService.Services
             _context = context;
         }
 
-        public async Task<ActionResult> CreateAsync(string name, string Description, decimal price, int quantity) 
+        public async Task<ProductResponseDto> CreateAsync(string name, string Description, decimal price, int quantity)
         {
             var product = new Product(name, Description, price, quantity);
             try
@@ -23,11 +23,19 @@ namespace ShopService.Services
                 await _context.Products.AddAsync(product);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex) 
+            catch (Exception)
             {
-                return new BadRequestObjectResult(new { message = "Ошибка добавления продукта", details = ex.Message });
+                return new ProductResponseDto();
             }
-            return new OkObjectResult(product);
+
+            return new ProductResponseDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity
+            };
         }
 
         public async Task<List<ProductResponseDto>> GetAllAsync() 
@@ -55,6 +63,10 @@ namespace ShopService.Services
         public async Task<ProductResponseDto> GetByIdAsync(int id)
         {
             var productId = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (productId == null) 
+            {
+                return new ProductResponseDto();
+            }
             return new ProductResponseDto
             {
                 Id = productId.Id,
@@ -62,6 +74,25 @@ namespace ShopService.Services
                 Description = productId.Description,
                 Price = productId.Price,
                 StockQuantity = productId.StockQuantity
+            };
+        }
+
+        public async Task<UpdateProductDto> UpdateAsync(int id, string name, string description, decimal price, int stockQuantity)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            product.Name = name;
+            product.Description = description;
+            product.Price = price;
+            product.StockQuantity = stockQuantity;
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+            
+            return new UpdateProductDto
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity
             };
         }
     }
