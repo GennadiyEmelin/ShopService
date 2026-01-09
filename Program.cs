@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using ShopService.Services;
 
 namespace ShopService
 {
@@ -12,6 +13,7 @@ namespace ShopService
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<ProductService>();
             builder.Services.AddDbContext<ShopService.Data.AppDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 

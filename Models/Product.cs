@@ -20,7 +20,7 @@ namespace ShopService.Models
         public bool IsActive { get; set; } // Активен ли товар
         public DateTime CreatedAt { get; set; } = DateTime.Now; // Когда создан
 
-        public Product(string name, string description, decimal price, int stockQuantity, bool isActive) 
+        public Product(string name, string description, decimal price, int stockQuantity) 
         {
             Name = name;
             Description = description;
@@ -30,7 +30,7 @@ namespace ShopService.Models
             if(stockQuantity < 0)
                 throw new Exception();
             StockQuantity = stockQuantity;
-            IsActive = isActive;
+            IsActive = true;
         }
         public Product() { }
 
