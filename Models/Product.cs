@@ -18,7 +18,7 @@ namespace ShopService.Models
         public int StockQuantity { get; set; } // Количество на складе
         [Required]
         public bool IsActive { get; set; } // Активен ли товар
-        public DateTime CreatedAt { get; set; } = DateTime.Now; // Когда создан
+        public DateTime CreatedAt { get; set; } = DateTime.Now.Date; // Когда создан
 
         public Product(string name, string description, decimal price, int stockQuantity) 
         {

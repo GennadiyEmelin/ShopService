@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopService.DTOs;
+using ShopService.Models;
 using ShopService.Services;
 
 namespace ShopService.Controllers
@@ -19,6 +20,13 @@ namespace ShopService.Controllers
         {
             await _productService.CreateAsync(dto.Name, dto.Description, dto.Price, dto.StockQuantity);
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ProductResponseDto>>> GetAllProducts()
+        {
+            var products = await _productService.GetAllAsync();
+            return products;
         }
     }
 }

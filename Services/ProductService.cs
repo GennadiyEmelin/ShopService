@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShopService.Data;
+using ShopService.DTOs;
 using ShopService.Models;
 
 namespace ShopService.Services
@@ -18,6 +20,21 @@ namespace ShopService.Services
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return new OkObjectResult(product);
+        }
+
+        public async Task<List<ProductResponseDto>> GetAllAsync() 
+        {
+            List<ProductResponseDto> products = await _context.Products
+                .Select(p => new ProductResponseDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    StockQuantity = p.StockQuantity
+                })
+                .ToListAsync();
+            return products;
         }
     }
 }
