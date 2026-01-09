@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopService.Models
 {
@@ -10,9 +11,9 @@ namespace ShopService.Models
         public string? ProductName { get; set; } // Денормализация имени товара
         public decimal UnitPrice { get; set; } // Цена на моменть добавления
         public int Quantity { get; set; } // Количество 
-        public decimal TotalPrice { get; set; }
+        [NotMapped]
+        public decimal TotalPrice => UnitPrice * Quantity;
         public Cart? Cart { get; set; } // Навигация
 
-        public CartItem() { TotalPrice = UnitPrice * Quantity; }
     }
 }

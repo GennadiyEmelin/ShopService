@@ -53,8 +53,7 @@ namespace ShopService.Migrations
                     ProductId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     UnitPrice = table.Column<decimal>(type: "TEXT", precision: 18, scale: 2, nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "TEXT", precision: 18, scale: 2, nullable: false)
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

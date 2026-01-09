@@ -30,14 +30,12 @@ namespace ShopService.Data
 
             modelBuilder.Entity<CartItem>(entity =>
             {
+                entity.Ignore(e => e.TotalPrice);
                 entity.Property(ci => ci.ProductName)
                       .IsRequired()
                       .HasMaxLength(200);
 
                 entity.Property(ci => ci.UnitPrice)
-                      .HasPrecision(18, 2);
-
-                entity.Property(ci => ci.TotalPrice)
                       .HasPrecision(18, 2);
             });
         }
