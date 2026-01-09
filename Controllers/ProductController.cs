@@ -15,18 +15,25 @@ namespace ShopService.Controllers
         {
             _productService = productService;
         }
-        [HttpPost]
+        [HttpPost("CreateProducts")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto dto)
         {
             await _productService.CreateAsync(dto.Name, dto.Description, dto.Price, dto.StockQuantity);
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("AllProducts")]
         public async Task<ActionResult<List<ProductResponseDto>>> GetAllProducts()
         {
             var products = await _productService.GetAllAsync();
             return products;
+        }
+
+        [HttpGet("ProductsById")]
+        public async Task<ActionResult<ProductResponseDto>> GetProductById(int id)
+        {
+            var product = await _productService.GetByIdAsync(id);
+            return product;
         }
     }
 }
