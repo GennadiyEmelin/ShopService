@@ -43,6 +43,7 @@ namespace ShopService.Services
             try
             {
                 List<ProductResponseDto> products = await _context.Products
+                    .Where(p => p.IsActive)
                     .Select(p => new ProductResponseDto
                     {
                         Id = p.Id,
@@ -80,6 +81,10 @@ namespace ShopService.Services
         public async Task<UpdateProductDto> UpdateAsync(int id, string name, string description, decimal price, int stockQuantity)
         {
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null || product.IsActive == false)
+            {
+                return null;
+            }
             product.Name = name;
             product.Description = description;
             product.Price = price;
@@ -94,6 +99,18 @@ namespace ShopService.Services
                 Price = product.Price,
                 StockQuantity = product.StockQuantity
             };
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null)
+            {
+                return false;
+            }
+            product.IsActive = false;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

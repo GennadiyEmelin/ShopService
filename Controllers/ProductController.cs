@@ -39,7 +39,26 @@ namespace ShopService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDto dto)
         {
-            await _productService.UpdateAsync(id, dto.Name, dto.Description, dto.Price, dto.StockQuantity);
+            if(dto == null)
+            {
+                return BadRequest("Нет данных");
+            }
+            if (id <= 0)
+            {
+                return BadRequest("Некорректный идентификатор продукта");
+            }
+            var response = await _productService.UpdateAsync(id, dto.Name, dto.Description, dto.Price, dto.StockQuantity);
+            if(response == null) 
+            {
+                return BadRequest("Продукт не найден");
+            }
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            await _productService.DeleteAsync(id);
             return Ok();
         }
     }

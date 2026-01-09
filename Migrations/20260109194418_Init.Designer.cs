@@ -11,7 +11,7 @@ using ShopService.Data;
 namespace ShopService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260109192501_Init")]
+    [Migration("20260109194418_Init")]
     partial class Init
     {
         /// <inheritdoc />
